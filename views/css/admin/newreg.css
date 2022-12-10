@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.nitte_logo{
+    padding: 1em 2em;
+}
+
+.college_bus_contacts{
+    padding: 1.5em;
+    font-family: 'Roboto', sans-serif;
+    text-align: left;
+}
+.navbar-nav.navbar-center{
+    position:relative;
+    left:50%;
+    transform:translatex(-50%);
+    margin:0.5em;
+}
+
+.nav-item{
+    margin: 0 1em;
+}
+
+th,td{
+    padding:1em 1em;
+    text-align: center;
+    font-size: medium;
+    font-family: 'Roboto',sans-serif;
+}
+th{
+    background-color: black;
+    color:white;
+}
+.footer{
+    padding:1em;
+    background-color: #ededed;
+}
+
+.logo{
+    display:block;
+    margin-left: auto;
+    margin-right:auto;
+    max-width:100%;
+}
+
+.talk{
+    text-align:center;
+    margin: 2em 0 0 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View your Route</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js">
+
+    <!-- For navbar collapse -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/passenger/viewroute.css">
+
+    <!-- Gfonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400&display=swap"
+        rel="stylesheet">
+
+    <!-- SweetAlert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</head>
+
+<body>
+    <section id="top_container">
+
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="../../images/nitte.png" alt="" class="nitte_logo">
+            </div>
+
+            <div class="col-lg-2">
+                <p class="college_bus_contacts">R.O.Office <br>91+123456789</p>
+            </div>
+            <div class="col-lg-2">
+                <p class="college_bus_contacts">Admission Office<br>91+3256727483</p>
+            </div>
+            <div class="col-lg-2">
+                <p class="college_bus_contacts">Email us<br>nitteedu@gmail.in</p>
+            </div>
+            <!-- Here 2 infos -->
+        </div>
+
+        <nav class="navbar navbar-expand-lg bg-light navbar-white">
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav navbar-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/passenger/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/passenger/profile">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/passenger/viewroute">View your Route</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </section>
+    <section id="middle-container">
+        <section style="background-color: #ffffff;font-family: 'Roboto', sans-serif;">
+            <div class="container py-5">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-lg-6 mb-4 mb-lg-0">
+                        <div class="card mb-3" style="border-radius: .5rem;">
+                            <div class="row g-0">
+                                <div class="col-md-4 gradient-custom text-center"
+                                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                    <img src="../../images/bus.png" alt="Avatar" class="img-fluid my-5"
+                                        style="width: 80px;" />
+                                    <h5>Route</h5>
+                                    <p>04</p>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body p-4">
+                                        <h6>Information</h6>
+                                        <hr class="mt-0 mb-4">
+                                        <div class="row pt-1">
+                                            <div class="col-6 mb-3">
+                                                <h6>Bus No.</h6>
+                                                <p class="text-muted">07</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Starting point</h6>
+                                                <p class="text-muted">Kundapura</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Destination</h6>
+                                                <p class="text-muted">Nitte</p>
+                                            </div>
+
+                                            <div class="col-6 mb-3">
+                                                <h6>Distance</h6>
+                                                <p class="text-muted">70km</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <h6>Fees</h6>
+                                                <p class="text-muted">25000</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section id="bottom-container" class="footer">
+        <div class="row">
+            <div class="col-lg-3">
+                <img src="../../images/lofilines.png" alt="" class="logo">
+            </div>
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-3">
+                <p class="talk"><strong>Talk to us</strong><br>
+                    LofiLines<br>91+6435673858<br>lofilines@gmail.com</p>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function logout() {
+            swal("You have been successfully logged out")
+                .then((result) => {
+                    window.location = "/"
+                }).catch((err) => {
+                    window.location = "/"
+                });
+        }
+    </script>
+</body>
+
+</html>
