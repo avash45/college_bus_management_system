@@ -88,7 +88,7 @@
                                     <img src="../../images/bus.png" alt="Avatar" class="img-fluid my-5"
                                         style="width: 80px;" />
                                     <h5>Route</h5>
-                                    <p>04</p>
+                                    <p> <%= data.result[0].Passenger_name %>  </p>
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body p-4">
@@ -97,11 +97,11 @@
                                         <div class="row pt-1">
                                             <div class="col-6 mb-3">
                                                 <h6>Bus No.</h6>
-                                                <p class="text-muted">07</p>
+                                                <p class="text-muted"><%= data.result[0].bus_no %> </p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Starting point</h6>
-                                                <p class="text-muted">Kundapura</p>
+                                                <p class="text-muted"><%= data.result[0].location %> </p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Destination</h6>
@@ -110,11 +110,11 @@
 
                                             <div class="col-6 mb-3">
                                                 <h6>Distance</h6>
-                                                <p class="text-muted">70km</p>
+                                                <p class="text-muted"><%= data.result[0].distance %> </p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Fees</h6>
-                                                <p class="text-muted">25000</p>
+                                                <p class="text-muted"><%= data.result[0].fees %> </p>
                                             </div>
                                         </div>
                                     </div>

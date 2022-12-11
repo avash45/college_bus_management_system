@@ -87,8 +87,10 @@
                                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                     <img src="../../images/user.png" alt="Avatar" class="img-fluid my-5"
                                         style="width: 80px;" />
-                                    <h5><%= passengername %> </h5>
-                                    <p>Student</p>
+                                    <h5> <%= data.result[0].Passenger_name  %> </h5>
+                                    <p><%= data.result[0].designation  %></p>
+                                    <br>    
+                                    <h5> <%= data.status %>  </h5>
                                     <i class="far fa-edit mb-5"></i>
                                 </div>
                                 <div class="col-md-8">
@@ -98,32 +100,33 @@
                                         <div class="row pt-1">
                                             <div class="col-6 mb-3">
                                                 <h6>Bus No.</h6>
-                                                <p class="text-muted">07</p>
+                                                <p class="text-muted"><%= data.result[0].bus_no  %></p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Pass No.</h6>
-                                                <p class="text-muted">101</p>
+                                                <p class="text-muted"><%= data.result[0].pass_id  %></p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>USN</h6>
-                                                <p class="text-muted"><%=   %> </p>
+                                                <p class="text-muted"><%= data.result[0].usn %></p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Phone</h6>
-                                                <p class="text-muted">8858385939</p>
+                                                <p class="text-muted"><%= data.result[0].Phone_no %></p>
                                             </div>
                                             
                                             <div class="col-6 mb-3">
                                                 <h6>Starting Point</h6>
-                                                <p class="text-muted">Bejai</p>
+                                                <p class="text-muted"><%= data.result[0].location  %></p>
                                             </div>
                                             <div class="col-6 mb-3">
                                                 <h6>Address</h6>
-                                                <p class="text-muted">ABC Nagar, Bejai</p>
+                                                <p class="text-muted"><%= data.result[0].address  %></p>
                                             </div>
                                             <div class="col-12 mb-3">
                                                 <h6>Email</h6>
-                                                <p class="text-muted">4nm20cs039@nmamit.in</p>
+                                                <p class="text-muted"><%= data.result[0].passenger_email %></p><br>
+                                                <button class="btn btn-primary" onclick="button()">Book your seat</button>
                                             </div>
                                         </div>
                                     </div>
@@ -151,9 +154,6 @@
         </div>
     </section>
     <script type="text/javascript">
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
 
         async function logout() {
             swal("You have been successfully logged out")
@@ -162,6 +162,12 @@
                 }).catch((err) => {
                     window.location = "/"
                 });
+        }
+    </script>
+
+    <script>
+        function button(){
+            print()
         }
     </script>
 </body>

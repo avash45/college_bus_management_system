@@ -89,27 +89,15 @@
     <section id="middle-container">
         <h2 style="text-align:center;margin-top:1em;">Routes</h2>
         <div class="row" style="margin:4em;">
-            <table id="tablee">
-                <tr>
-                    <th>Start</th>
-                    <th>Distance</th>
-                    <th>Fees</th>
-                </tr>
-                <tr >
-                    <td>Kundapura xxxx</td>
-                    <td>70km yyyy</td>
-                    <td>14900.00 zzzz</td>
-                </tr>
-                <tr>
-                    <td>Deralakatte xxxx</td>
-                    <td>60km yyyy</td>
-                    <td>14500.00 zzzz</td>
-                </tr>
-                <tr>
-                    <td>Mangaladevi xxxx</td>
-                    <td>45km yyyy</td>
-                    <td>12000.00 zzzz</td>
-                </tr>
+            <table>
+                <tr><th>Path</th><th>Distance</th><th>Fees</th></tr>
+                <% for (var i=0 ;i<data.result.length;i++){ %>
+                    <tr>
+                        <td><%= data.result[i].location  %></td>
+                        <td><%= data.result[i].distance  %></td>
+                        <td><%= data.result[i].fees  %></td>
+                    </tr>
+                <%}%> 
             </table>
         </div>
     </section>

@@ -35,26 +35,23 @@ db.connect((err) => {
 
 //===============================================Homepage====================================================
 app.get("/", function (req, res) {
-    req.session.destroy;
+    req.session.destroy();
     var springedge = require('springedge');
+    res.render("html/homepage.ejs")
 
-
-    springedge.messages.send(params, 5000, function (err, response) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log(response);
-    });
-    res.render("html/homepage.ejs");
-})
+});
 
 app.get("/routes", function (req, res) {
-    res.render("html/routes.ejs");
+    let sql = "SELECT * FROM PASSENGER,PASS,BUS,ROUTES where PASS.pass_id=PASSENGER.pass_id AND BUS.bus_no=PASSENGER.bus_no AND BUS.route_no=ROUTES.route_no ";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        res.render("html/routes.ejs", {data : {result: result}})
+    });
 });
 
 app.get("/gallery", function (req, res) {
     res.render("html/gallery.ejs");
-})
+});
 
 
 //=====================================Passenger login=====================================
@@ -64,29 +61,31 @@ app.get("/passenger/login", function (req, res) {
     res.render("html/passenger/login.ejs")
 });
 
-app.post("/passenger/login", function (req, res) {
-    var email = req.body.email
-    var password = req.body.password
-    let sql = "SELECT * FROM USERS WHERE email='" + email + "' AND password='" + password + "';";
+app.post("/passenger/login", (req, res) => {
+    email = req.body.email
+    password = req.body.password
+
+    let sql = "SELECT * FROM PASSENGER WHERE passenger_email='" + email + "' AND passenger_password='" + password + "';";
     db.query(sql, (err, result) => {
         if (err) throw err;
         if (result.length == 0) {
-            res.send("No accounts found");
+            console.log("No accounts found");
+            res.render("html/passenger/login")
         }
         else {
             session = req.session;
             session.userid = email;
-            res.render('html/passenger/home.ejs')
+            res.render('html/passenger/home.ejs', { data: { result: result } })
+            req.session.login = "passenger"
         }
     });
-});
-
-
-app.get("/passenger/signup", function (req, res) {
+})
+//============================================Signup==================================
+app.get("/passenger/register", function (req, res) {
     res.render("html/passenger/signup.ejs");
 })
 
-app.post("/passenger/signup", (req, res) => {
+app.post("/passenger/register", (req, res) => {
     fname = req.body.fname;
     phoneno = req.body.phoneno;
     designation = req.body.inlineRadioOptions
@@ -111,16 +110,15 @@ app.post("/passenger/signup", (req, res) => {
     });
 });
 
+app.get("/forgot-password", function (req, res) {
+    res.render("html/forgot-password.html");
+});
+
+//===========================================Admin login==============================
+
 app.get("/admin/login", function (req, res) {
     res.render("html/admin/login.ejs");
 });
-
-app.get("/forgot-password", function (req, res) {
-    res.render("html/forgot-password.html");
-})
-
-//------------------------------------Admin---------------------------------------------------------------
-
 
 app.post("/admin/login", (req, res) => {
     email = req.body.email
@@ -143,6 +141,8 @@ app.post("/admin/login", (req, res) => {
     });
 })
 
+//============================================Admin pages==================================
+
 app.get("/admin/bus", function (req, res) {
     if (flag = 2) {
         res.render("html/admin/bus.ejs");
@@ -156,79 +156,78 @@ app.get("/admin/adminroutes", function (req, res) {
     res.render("html/admin/adminroutes.ejs");
 })
 
-
-
 app.get("/admin/newreg", function (req, res) {
     res.render("html/admin/newreg.ejs");
 })
 
-
-//------------------------------------------------------------------------------------------------------
-// Passenger
+//========================================== Passenger=========================================
 
 
-app.post("/passenger/login", (req, res) => {
-    email = req.body.email
-    password = req.body.password
-
-    let sql = "SELECT * FROM PASSENGER WHERE passenger_email='" + email + "' AND passenger_password='" + password + "';";
-    db.query(sql, (err, result) => {
-        if (err) throw err;
-        if (result.length == 0) {
-            console.log("No accounts found");
-            res.render("html/passenger/login")
-        }
-        else {
-            pname = result[0].Passenger_name
-            res.render('html/passenger/home.ejs', { data: { passenger_name: pname } })
-            req.session.login = "passenger"
-        }
-    });
-})
 
 app.get("/passenger/home", function (req, res) {
-    let sql = "SELECT * FROM PASSENGER WHERE passenger_email='" + email + "' AND passenger_password='" + password + "';";
-    db.query(sql, (err, result) => {
-        if (err) throw err;
-        let passenger_name = result[0].Passenger_name;
+    session = req.session
+    if (req.session) {
+        let sql = "SELECT * FROM PASSENGER WHERE passenger_email='" + email + "' AND passenger_password='" + password + "';";
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.render("html/passenger/home.ejs", { data: { result: result } })
 
-    })
-});
-
-
-app.get("/passenger/viewroute", function (req, res) {
-    res.render("html/passenger/viewroute.ejs");
+        });
+    }
+    else {
+        res.send("Please login to continue");
+    }
 });
 
 app.get("/passenger/profile", function (req, res) {
-    let sql = "SELECT * FROM PASSENGER ;";
-    db.query(sql, (err, result) => {
-        if (err) throw err;
-        busn = result[0].bus_no
-        pasid = result[0].pass_id
-        addr = result[0].address
-        usnn = result[0].usn
-        passname = result[0].Passenger_name
-        phno = result[0].Phone_no
-        phmail = result[0].passenger_email
-        des = reult[0].designation
-        console.log("COnnected")
-        res.render("html/passenger/profile.ejs", { data: { passengername: passname, designations: des } })
-    });
+    session = req.session
+    if (session.userid) {
+        let sql = "SELECT * FROM PASSENGER,PASS,BUS,ROUTES where PASS.pass_id=PASSENGER.pass_id AND BUS.bus_no=PASSENGER.bus_no AND BUS.route_no=ROUTES.route_no AND passenger_email='" + session.userid + "';";
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            var status
+            if (result[0].payment_status == 2) {
+                status = "Payment done. Take care "
+            }
+            else {
+                status = "Payment not done. Please pay ASAP";
+            }
+            res.render("html/passenger/profile.ejs", { data: { result: result, status: status } })
+        });
+    }
+    else {
+        res.send("Please login to continue")
+    }
 });
 
+app.get("/passenger/viewroute", function (req, res) {
+    session = req.session
+    if (session.userid) {
+        console.log(session.userid)
+        let sql = "SELECT * FROM PASSENGER,PASS,BUS,ROUTES where PASS.pass_id=PASSENGER.pass_id AND BUS.bus_no=PASSENGER.bus_no AND BUS.route_no=ROUTES.route_no AND passenger_email='" + session.userid + "';";
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            console.log(result)
+            res.render("html/passenger/viewroute.ejs", { data: { result: result } })
+        });
+    }
+    else {
+        res.send("Please login to continue")
+    }
+    res.render("html/passenger/viewroute.ejs");
+});
+//=================================================Generate PDF================================
+app.get("/passenger/generate_application", function (req, res) {
 
-app.listen("3000", function () {
-    console.log("Hey iM listening: 3000")
+
+
+
+
+
 })
 
-//=======================================================================================
 
-    // var params = {
-    //     'apikey': '', // API Key 
-    //     'sender': 'Av', // Sender Name 
-    //     'to': [
-    //         '9686104291'  //Moblie Number 
-    //     ],
-    //     'message': 'Hey'
-    // };
+
+app.listen("3001", function () {
+    console.log("Hey iM listening: 3001")
+});
