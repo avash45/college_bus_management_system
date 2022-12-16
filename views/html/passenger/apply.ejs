@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js">
+
+    <style>
+        .row.pt-1 hr{
+            color:#999494;
+            width:50%;
+        }
+    </style>
+    <!-- Gfonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400&display=swap"
+        rel="stylesheet">
+    <!-- SweetAlert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body onload="print()">
+    <section id="middle-container">
+        <section style="background-color: #ededed;font-family: 'Roboto', sans-serif;">
+            <div class="container py-5">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-lg-8 mb-4 mb-lg-0">
+                        <div class="card" style="border-radius: .5rem;">
+                            <div class="row g-0">
+                                <div class="col-md-4 gradient-custom text-center"
+                                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                                    <img src="../images/user.png" alt="Avatar" class="img-fluid my-5"
+                                        style="width: 80px;" />
+                                    <h5>
+                                        Ardra Madhu
+                                    </h5>
+                                    <p>Student</p>
+                                    <i class="far fa-edit mb-5"></i>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body p-4">
+                                        <h6 style="font-size:1.5em;">Application details</h6>
+                                        <hr class="mt-0 mb-4">
+                                        <div class="row pt-1">
+                                            <div class="col-12">
+                                                <h6>USN</h6>
+                                                <p class="text-muted"><%= data.result[0].usn %> </p>
+                                            </div>
+                                            <hr>
+                                            <div class="col-12">
+                                                <h6>Name</h6>
+                                                <p class="text-muted"><%= data.result[0].Passenger_name %> </p>
+                                            </div>
+                                            <hr>
+                                            <div class="col-12">
+                                                <h6>PassId</h6>
+                                                <p class="text-muted"><%= data.result[0].pass_id %></p>
+                                            </div>
+                                            <hr>
+
+                                            <div class="col-12">
+                                                <h6>Designation</h6>
+                                                <p class="text-muted"><%= data.result[0].designation %></p>
+                                            </div>
+                                            <hr>
+                                            <div class="col-12">
+                                                <h6>Email</h6>
+                                                <p class="text-muted"><%= data.result[0].passenger_email %></p>
+                                            </div>
+                                            <hr>
+                                            <div class="col-12">
+                                                <h6>Phone number</h6>
+                                                <p class="text-muted"><%= data.result[0].Phone_no %></p>
+                                            </div>
+                                            <hr>
+                                            <div class="col-12">
+                                                <h6>Address</h6>
+                                                <p class="text-muted">
+                                                    <%= data.result[0].address %>
+                                                </p>
+                                            </div>
+                                            <hr>
+                                            <div class="col-12">
+                                                <h6>Boarding point</h6>
+                                                <p class="text-muted"><%= data.result[0].location %></p>
+                                            </div>
+                                            <hr>
+
+                                            <div class="col-12">
+                                                <h6>Fees</h6>
+                                                <p class="text-muted"><%= data.result[0].fees %></p>
+                                            </div>
+                                            <hr>
+
+                                            <div class="col-12">
+                                                <h6>Bus Number</h6>
+                                                <p class="text-muted"><%= data.result[0].bus_no %></p>
+                                            </div>
+                                            <hr>
+                                            
+                                            <div class="col-12">
+                                                <h6>Route No.</h6>
+                                                <p class="text-muted"><%= data.result[0].route_no %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</body>
+
+</html>

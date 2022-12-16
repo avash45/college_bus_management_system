@@ -9,7 +9,7 @@ const app = express()
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, '/views')))
 app.use(bodyParser.urlencoded({ extended: true }))
-
+var passid = 1005;
 //==============================================Session===========================================
 
 var session;
@@ -32,11 +32,21 @@ db.connect((err) => {
     console.log('SQL Connected')
 });
 
+//==============================================Email================================================
+
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'lofilinesnmamit@gmail.com',
+        pass: '$Lofilines0'
+    }
+});
 
 //===============================================Homepage====================================================
 app.get("/", function (req, res) {
     req.session.destroy();
-    var springedge = require('springedge');
     res.render("html/homepage.ejs")
 
 });
@@ -45,7 +55,7 @@ app.get("/routes", function (req, res) {
     let sql = "SELECT * FROM PASSENGER,PASS,BUS,ROUTES where PASS.pass_id=PASSENGER.pass_id AND BUS.bus_no=PASSENGER.bus_no AND BUS.route_no=ROUTES.route_no ";
     db.query(sql, (err, result) => {
         if (err) throw err;
-        res.render("html/routes.ejs", {data : {result: result}})
+        res.render("html/routes.ejs", { data: { result: result } })
     });
 });
 
@@ -80,9 +90,16 @@ app.post("/passenger/login", (req, res) => {
         }
     });
 })
-//============================================Signup==================================
+//============================================Signup=============================================
 app.get("/passenger/register", function (req, res) {
-    res.render("html/passenger/signup.ejs");
+    let sql = "SELECT route_no FROM ROUTES ;";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.render("html/passenger/signup.ejs", { data: { result: result } });
+    });
+
+
 })
 
 app.post("/passenger/register", (req, res) => {
@@ -93,28 +110,43 @@ app.post("/passenger/register", (req, res) => {
     usn = req.body.usn;
     addresss = req.body.addresss;
     password = req.body.password;
+    route_no = req.body.route;
+    passid += 1;
+    console.log(req.body)
 
-    console.log(email + "  " + password + "  " + fname + "  " + phoneno + "  " + designation + "  " + usn + "  " + addresss
-    );
-
-    let sql = ""
-    db.query(sql, (err, result) => {
+    
+    var sqls = "SELECT * FROM ROUTES where route_no='" + route_no + "';";
+    db.query(sqls, (err, result) => {
         if (err) throw err;
-        if (result.length == 0) {
-            console.log("No accounts found");
-            res.render("html/admin/login")
-        }
-        else {
-            res.render('html/admin/home.ejs')
-        }
+        var money = result[0].fees;
+        console.log(money)
     });
+    console.log(money);
+
+    today_date = ""
+    var sqls = "SELECT NOW() as today_date;";
+    db.query(sqls, (err, result) => {
+        if (err) throw err;
+        today_date = result[0].today_date
+        today_date = JSON.stringify(today_date)
+
+        today_date = today_date.substring(1, 11);
+        console.log(today_date)
+    });
+
+    sqls = "INSERT INTO PASS values(" + money + ", " + passid + ", " + today_date + ", 0);"
+    db.query(sqls, (err, result) => {
+        if (err) throw err;
+        console.log("Successfully Pass inserted")
+
+    })
 });
 
 app.get("/forgot-password", function (req, res) {
-    res.render("html/forgot-password.html");
+    res.render("html/forgot-password.ejs");
 });
 
-//===========================================Admin login==============================
+//===========================================Admin login======================================
 
 app.get("/admin/login", function (req, res) {
     res.render("html/admin/login.ejs");
@@ -136,20 +168,30 @@ app.post("/admin/login", (req, res) => {
         }
         else {
             res.render('html/admin/home.ejs')
-            req.session.login = "true"
+            req.session.userid = email
         }
     });
 })
 
 //============================================Admin pages==================================
 
-app.get("/admin/bus", function (req, res) {
-    if (flag = 2) {
-        res.render("html/admin/bus.ejs");
+app.get("/admin/home", function (req, res) {
+    session = req.session
+    if (req.session) {
+        let sql = "SELECT * FROM ADMIN WHERE admin_email='" + req.userid + "';";
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.render("html/admin/home.ejs")
+
+        });
     }
     else {
-        res.send("ADmin nahi hai yu")
+        res.send("Please login to continue");
     }
+});
+
+app.get("/admin/bus", function (req, res) {
+    res.render("html/admin/bus.ejs");
 })
 
 app.get("/admin/adminroutes", function (req, res) {
@@ -160,7 +202,26 @@ app.get("/admin/newreg", function (req, res) {
     res.render("html/admin/newreg.ejs");
 })
 
-//========================================== Passenger=========================================
+app.get("/admin/report", function (req, res) {
+
+    session = req.session
+    if (req.session) {
+        let sql = "SELECT * FROM ADMIN WHERE admin_email='" + req.userid + "';";
+        db.query(sql, (err, result) => {
+            if (err) throw err;
+            res.render("html/admin/report.ejs");
+        });
+    }
+    else {
+        res.send("Please login to continue");
+    }
+
+
+
+    
+})
+
+//========================================== Passenger pages=========================================
 
 
 
@@ -186,7 +247,7 @@ app.get("/passenger/profile", function (req, res) {
         db.query(sql, (err, result) => {
             if (err) throw err;
             var status
-            if (result[0].payment_status == 2) {
+            if (result[0].payment_status == 1) {
                 status = "Payment done. Take care "
             }
             else {
@@ -214,20 +275,22 @@ app.get("/passenger/viewroute", function (req, res) {
     else {
         res.send("Please login to continue")
     }
-    res.render("html/passenger/viewroute.ejs");
 });
-//=================================================Generate PDF================================
-app.get("/passenger/generate_application", function (req, res) {
 
+//=================================================Generate PDF===================================
 
+app.get("/passenger/application", function (req, res) {
+    session = req.session;
 
+    let sql = "SELECT * FROM PASSENGER,PASS,BUS,ROUTES where PASS.pass_id=PASSENGER.pass_id AND BUS.bus_no=PASSENGER.bus_no AND BUS.route_no=ROUTES.route_no AND passenger_email='" + session.userid + "';";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result)
+        res.render("html/passenger/apply.ejs", { data: { result: result } });
+    });
+});
 
-
-
-})
-
-
-
-app.listen("3001", function () {
-    console.log("Hey iM listening: 3001")
+//=============================================PORT================================================
+app.listen("3000", function () {
+    console.log("Hey iM listening: 3000")
 });
