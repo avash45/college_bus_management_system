@@ -90,15 +90,15 @@
                 </tr>
                 <tr>
                     <td class="headcol">STUDENT</td>
-                    <td>800</td>
+                    <td><%= data.student_count %> </td>
                 </tr>
                 <tr>
                     <td class="headcol">FACULTY</td>
-                    <td>640</td>
+                    <td><%= data.faculty_count %></td>
                 </tr>
                 <tr>
                     <td class="headcol">TOTAL</td>
-                    <td>1440</td>
+                    <td><%= data.total_count %></td>
                 </tr>
             </table>
         </div>
@@ -106,17 +106,21 @@
             <table class="table table-striped">
                 <tr>
                     <td>NO. OF BUSES : </td>
-                    <td>20</td>
+                    <td><%= data.total_bus %></td>
                 </tr>
                 <tr>
                     <td>NO. OF ROUTES : </td>
-                    <td>30</td>
+                    <td><%= data.total_routes %></td>
                 </tr>
                 <tr>
                     <td>TOTAL CAPACITY OF BUSES : </td>
-                    <td>1500</td>
+                    <td><%= data.total_capacity %></td>
                 </tr>
             </table>
+
+        </div>
+        <div class="text-center"> 
+            <a href="report_download"><button class=" btn btn-primary" style="margin: 1%;"> Generate pdf report </button></a>
         </div>
     </section>
     <section id="bottom-container" class="footer">

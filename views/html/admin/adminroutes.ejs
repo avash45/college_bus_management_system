@@ -84,16 +84,20 @@
         <div class="row" style="margin:4em;overflow-x:auto;">
             <table>
                 <tr>
+                    <th>Route no</th>
                     <th>Start</th>
                     <th>Distance</th>
                     <th>Fees</th>
-                    <th>Status</th>
+                    <th>Gmap link</th>
+                    <th>Create</th>
                 </tr>
                 <tr>
-                    <form action="#">
-                        <td><input type="text" id="start" placeholder=" Start.."></td>
-                        <td><input type="text" id="distance" placeholder=" Distance.."></td>
-                        <td><input type="text" id="fees" placeholder=" Fees.."></td>
+                    <form action="adminroutes/add" method="post">
+                        <td><input type="text" name="route_no" placeholder=" Route no.."></td>
+                        <td><input type="text" name="location" placeholder=" Start.."></td>
+                        <td><input type="text" name="distance" placeholder=" Distance.."></td>
+                        <td><input type="text" name="fees" placeholder=" Fees.."></td>
+                        <td><input type="text" name="link" placeholder=" Gmap link.."></td>
                         <td><button type="submit" class="button">Create</button></td>
                     </form>
                 </tr>
@@ -107,17 +111,32 @@
                     <th>Start</th>
                     <th>Distance</th>
                     <th>Fees</th>
+                    <th>Link</th>
                     <th>Delete</th>
-                    <th>Edit</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Mangaladevi</td>
-                    <td>52km</td>
-                    <td>25000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                    <td><button type="submit" class="button">Edit</button></td>
-                </tr>
+                </tr> 
+                <% for (var i=0 ;i < data.result.length ;i++) { %>
+                    <tr>
+                        <form action="/admin/adminroutes/delete/<%=data.result[i].route_no%>" method="post">
+                            <td>
+                                <%= data.result[i].route_no %>
+                            </td>
+                            <td>
+                                <%= data.result[i].location %>
+                            </td>
+                            <td>
+                                <%= data.result[i].distance %>km
+                            </td>
+                            <td>
+                                <%= data.result[i].fees %>
+                            </td>
+                            <td>
+                                <a href="<%= data.result[i].link %>" target="_blank">Click here</a>
+                            </td>
+
+                            <td><button type="submit" class="button">Delete</button></td>
+                        </form>
+                    </tr>
+                    <% } %>
             </table>
         </div>
     </section>
@@ -137,9 +156,6 @@
         </div>
     </section>
     <script type="text/javascript">
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
 
         async function logout() {
             swal("You have been successfully logged out")

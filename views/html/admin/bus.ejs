@@ -93,12 +93,12 @@
                     <th>Status</th>
                 </tr>
                 <tr>
-                    <form action="#">
-                        <td><input type="text" name="busno" placeholder="Bus No.."></td>
-                        <td><input type="text" name="model" placeholder="Model.."></td>
-                        <td><input type="text" name="driver" placeholder="Driver.."></td>
-                        <td><input type="text" name="capacity" placeholder="Capacity.."></td>
-                        <td><input type="text" name="route" placeholder="Route No.."></td>
+                    <form action="/admin/bus/add" method="post">
+                        <td><input type="text" name="bus_no" placeholder="Bus No.."></td>
+                        <td><input type="text" name="bus_model" placeholder="Model.."></td>
+                        <td><input type="text" name="bus_driver" placeholder="Driver.."></td>
+                        <td><input type="text" name="bus_capacity" placeholder="Capacity.."></td>
+                        <td><input type="text" name="route_no" placeholder="Route No.."></td>
                         <td><button type="submit" class="button">Done</button></td>
                     </form>
                 </tr>
@@ -109,24 +109,26 @@
             <table>
                 <tr>
                     <th>Bus No</th>
-                    <th>Bus model</th>
-                    <th>Bus driver</th>
-                    <th>Bus capacity</th>
                     <th>Route no</th>
-                    <th>Edit</th>
+                    <th>Bus capacity</th>
+                    <th>Bus driver</th>
+                    <th>Bus model</th>
+                    <!-- <th>Edit</th> -->
                     <th>Delete</th>
                 </tr>
+                <% for(var i=0 ;i<data.result.length ;i++){  %> 
                 <tr>
-                    <form action="#">
-                        <td>07</td>
-                        <td>tata</td>
-                        <td>Ramesh</td>
-                        <td>45</td>
-                        <td>05</td>
-                        <td><button type="submit" class="button">Edit</button></td>
-                        <td><button type="submit" class="button">Delete</button></td>
+                    <form action="/admin/bus/delete/<%= data.result[i].bus_no %>" method="post">
+                        <td><%= data.result[i].bus_no %> </td>
+                        <td><%= data.result[i].route_no %></td>
+                        <td><%= data.result[i].bus_capacity %></td>
+                        <td><%= data.result[i].bus_driver %></td>
+                        <td><%= data.result[i].bus_model %></td>
+                        <!-- <td><button type="submit" class="button">Edit</button></td> -->
+                        <td><button type="submit" class="button" >Delete</button></td>
                     </form>
                 </tr>
+                <% } %> 
             </table>
         </div>
     </section>
@@ -146,10 +148,6 @@
         </div>
     </section>
     <script type="text/javascript">
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
         async function logout() {
             swal("You have been successfully logged out")
                 .then((result) => {
@@ -158,6 +156,7 @@
                     window.location = "/"
                 });
         }
+
     </script>
 </body>
 </html>

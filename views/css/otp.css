@@ -1,0 +1,51 @@
+body,
+html {
+	height: 100%;
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 200;
+}
+
+body {
+	background-color: #ededed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.digit-group input {
+	width: 30px;
+	height: 50px;
+	background-color: black;
+	border: none;
+	line-height: 50px;
+	text-align: center;
+	font-size: 24px;
+	font-family: 'Raleway', sans-serif;
+	font-weight: 200;
+	color: white;
+	margin: 0 2px;
+}
+
+
+.prompt {
+	margin-bottom: 20px;
+	font-size: 20px;
+}
+
+.btn{
+	padding:0.5em;
+	font-size: larger;
+}
+
+.sub1{
+	padding: 1em;
+	display: block;
+	align-items: center;
+}
+
+.sub{
+	padding: 1em 2.5em;
+	display: block;
+}

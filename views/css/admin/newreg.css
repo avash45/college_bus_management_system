@@ -47,6 +47,13 @@ th{
     max-width:100%;
 }
 
+button{
+    background-color: black;
+    color:white;
+    padding: 0 0.5em;
+    border-radius: 1em;
+}
+
 .talk{
     text-align:center;
     margin: 2em 0 0 0;
