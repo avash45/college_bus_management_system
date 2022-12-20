@@ -84,166 +84,94 @@
     <section id="middle-container">
         <h2 style="text-align:center;margin-top:1em;">New Registrations</h2>
         <br>
-        <div class="row" style="margin:2em;overflow-x: auto;">
+        <div class="row" style="margin:2em;overflow-x: auto;overflow-y: auto;max-height: 15em;">
             <table>
                 <tr>
-                    <th>Passenger Id</th>
-                    <th>Name</th>
                     <th>Pass Id</th>
+                    <th>Name</th>
+                    <th>USN</th>
                     <th>Designation</th>
                     <th>Bus No.</th>
-                    <th>Boarding Point</th>
+                    <th>Payment Status</th>
                     <th>Fees</th>
                     <th>Validate</th>
                 </tr>
-                <tr>
-                    <td>103</td>
-                    <td>Kishan Kumar</td>
-                    <td>003</td>
-                    <td>Student</td>
-                    <td>02</td>
-                    <td>Kundapura</td>
-                    <td>14900</td>
-                    <td><button type="submit" class="button">Accept</button></td>
-                </tr>
+                <% for(var i=(data.result.length)-1 ;i>=0 ;i--) { %>
+                    <tr>
+                        <form action="/admin/newreg/add/<%= data.result[i].pass_id %>" method="post">
+                        <td>
+                            <%= data.result[i].pass_id %>
+                        </td>
+                        <td>
+                            <%= data.result[i].Passenger_name %>
+                        </td>
+                        <td>
+                            <%= data.result[i].usn %>
+                        </td>
+                        <td>
+                            <%= data.result[i].designation %>
+                        </td>
+                        <td>
+                            <%= data.result[i].bus_no %>
+                        </td>
+                        <td>
+                            <%= data.result[i].payment_status %>
+                        </td>
+                        <td>
+                            <%= data.result[i].fees %>
+                        </td>
+                        <td><button type="submit" class="button">Accept</button></td>
+                        </form>
+                    </tr>
+                    <% } %>
             </table>
         </div>
-        <h2 style="text-align:center;margin-top:1em;">Registrations</h2>
-        <div class="row" style="margin:2em;overflow-x: auto;">
+        <h2 style="text-align:center;margin-top:1em;">All Registrations</h2>
+        <div class="row" style="margin:2em;overflow-x: auto;overflow-y: auto; max-height: 15em;">
             <table>
                 <tr>
-                    <th>Passenger Id</th>
-                    <th>Name</th>
                     <th>Pass Id</th>
+                    <th>Name</th>
+                    <th>USN</th>
                     <th>Designation</th>
                     <th>Bus No.</th>
-                    <th>Boarding Point</th>
+                    <th>Payment Status</th>
                     <th>Fees</th>
                     <th>Delete</th>
                 </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>102</td>
-                    <td>Alice Wallace</td>
-                    <td>002</td>
-                    <td>Student</td>
-                    <td>07</td>
-                    <td>Mangaladevi</td>
-                    <td>12000</td>
-                    <td><button type="submit" class="button">Delete</button></td>
-                </tr>
-
-                </table>
+                <% for(var i=0 ;i<data.result.length ;i++) {%>
+                    <tr>
+                        <form action="/admin/newreg/delete/<%= data.result[i].pass_id %>" method="post">
+                            <td>
+                                <%= data.result[i].pass_id %>
+                            </td>
+                            <td>
+                                <%= data.result[i].Passenger_name %>
+                            </td>
+                            <td>
+                                <%= data.result[i].usn %>
+                            </td>
+                            <td>
+                                <%= data.result[i].designation %>
+                            </td>
+                            <td>
+                                <%= data.result[i].bus_no%>
+                            </td>
+                            <td>
+                                <%= data.result[i].payment_status %>
+                            </td>
+                            <td>
+                                <%= data.result[i].fees %>
+                            </td>
+                            <td><button type="submit" class="button">Delete</button></td>
+                        </form>
+                    </tr>
+                    <% } %>
+            </table>
         </div>
+        <form action="/admin/newreg/semreset" method="post" class="text-center "><button class="btn btn-danger m-4">Semester Reset</button></form>
+        <form action="/admin/newreg/deleteset" method="post" class="text-center "><button class="btn btn-danger m-4">Delete all</button></form>
+
     </section>
     <section id="bottom-container" class="footer">
         <div class="row">
@@ -261,10 +189,6 @@
         </div>
     </section>
     <script type="text/javascript">
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
         async function logout() {
             swal("You have been successfully logged out")
                 .then((result) => {

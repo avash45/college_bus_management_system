@@ -9,8 +9,9 @@ const app = express()
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, '/views')))
 app.use(bodyParser.urlencoded({ extended: true }))
-var passid = 10011;
+var passid = 10021;
 var sqls
+let adminemail = 'lofilinesnmamit0@gmail.com'
 //==============================================Session===========================================
 
 var session;
@@ -37,9 +38,7 @@ db.connect((err) => {
 
 var nodemailer = require('nodemailer');
 
-let y = Math.floor((Math.random() * 9999) + 1);
-let x = y.toString();
-console.log(x)
+
 
 //===============================================Homepage====================================================
 app.get("/", function (req, res) {
@@ -49,9 +48,9 @@ app.get("/", function (req, res) {
 });
 
 app.get("/routes", function (req, res) {
-    let sql = "SELECT * FROM PASSENGER,PASS,BUS,ROUTES where PASS.pass_id=PASSENGER.pass_id AND BUS.bus_no=PASSENGER.bus_no AND BUS.route_no=ROUTES.route_no ";
+    let sql = "SELECT * FROM ROUTES";
     db.query(sql, (err, result) => {
-        if (err) throw err;
+        if (err) { res.render("html/homepage.ejs") }
         res.render("html/routes.ejs", { data: { result: result } })
     });
 });
@@ -72,20 +71,64 @@ app.post("/admin/login", (req, res) => {
 
     let sql = "SELECT * FROM ADMIN WHERE admin_email='" + email + "' AND admin_password='" + password + "';";
     db.query(sql, (err, result) => {
-        if (err) throw err;
+        if (err) { res.render("html/homepage.ejs") }
         if (result.length == 0) {
             console.log("No accounts found");
             res.render("html/admin/login")
         }
         else {
             req.session.userid = email
+            console.log(email)
             res.render('html/admin/home.ejs')
 
         }
     });
 })
 
-//============================================Admin pages==================================
+app.get("/forgot-password2", function (req, res) {
+    res.render("html/forgot-password2.ejs");
+});
+
+app.post("/forgot_password2", function (req, res) {
+    email = req.body.email
+
+    let newpwd = ""
+    while (newpwd.length < 8) {
+        newpwd += (Math.round(Math.random() * 15)).toString(16)
+    }
+
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'lofilinesnmamit@gmail.com',
+            pass: 'drsvtmzkofrvfxkj'
+        }
+    });
+    var mailOptions = {
+        from: 'lofilinesnmamit@gmail.com',
+        to: email,
+        subject: 'Here is your new Reset password',
+        text: newpwd
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+
+    sqls = "UPDATE ADMIN SET admin_password='" + newpwd + "' where admin_email='" + email + "';"
+    db.query(sqls, (err, result) => {
+        if (err) throw err
+        res.render("html/done2.ejs")
+    })
+
+})
+
+//============================================Admin pages=======================================
 
 //-------------------home-------------
 
@@ -94,7 +137,7 @@ app.get("/admin/home", function (req, res) {
     if (session.userid) {
         let sql = "SELECT * FROM ADMIN WHERE admin_email='" + req.userid + "';";
         db.query(sql, (err, result) => {
-            if (err) throw err;
+            if (err) { res.render("html/homepage.ejs") }
             res.render("html/admin/home.ejs")
 
         });
@@ -104,14 +147,14 @@ app.get("/admin/home", function (req, res) {
     }
 });
 
-//-------------------bus-------------
+//--------------------bus--------------------
 
 app.get("/admin/bus", function (req, res) {
     session = req.session
     if (session.userid) {
         var sqls = " SELECT * from BUS;"
         db.query(sqls, (err, result) => {
-            if (err) throw err
+            if (err) { res.render("html/homepage.ejs") }
             res.render("html/admin/bus.ejs", { data: { result: result } })
         })
     } else {
@@ -138,19 +181,19 @@ app.post("/admin/bus/delete/:bus_no", function (req, res) {
     let bus_no = req.params.bus_no
     var sqls = "DELETE FROM BUS WHERE bus_no=" + bus_no + ";"
     db.query(sqls, (err, result) => {
-        if (err) throw err
+        if (err) { res.render("html/homepage.ejs") }
         res.render("html/admin/home.ejs")
     })
 });
 
-//-------------------routes----------
+//-------------------routes------------------
 
 app.get("/admin/adminroutes", function (req, res) {
     session = req.session
     if (session.userid) {
         var sqls = " SELECT * from ROUTES;"
         db.query(sqls, (err, result) => {
-            if (err) throw err
+            if (err) { res.render("html/homepage.ejs") }
             res.render("html/admin/adminroutes.ejs", { data: { result: result } })
         })
     } else {
@@ -185,15 +228,67 @@ app.post("/admin/adminroutes/delete/:route_no", function (req, res) {
     })
 })
 
-//-------------------New registration----------
+//-----------------New registration----------
 
 app.get("/admin/newreg", function (req, res) {
     session = req.session
-    if (session.userid) {
+    if (session.userid === adminemail) {
         sqls = " SELECT * from PASSENGER,PASS where PASSENGER.pass_id=PASS.pass_id ORDER BY PASSENGER.pass_id ;"
         db.query(sqls, (err, result) => {
-            if (err) throw err
+            if (err) { res.render("html/homepage.ejs") }
             res.render("html/admin/newreg.ejs", { data: { result: result } });
+        })
+    } else {
+        res.render("html/loginalert.ejs")
+    }
+})
+
+app.post("/admin/newreg/add/:passid", function (req, res) {
+    pass_id = req.params.passid
+    sqls = "UPDATE PASS SET payment_status=1 where pass_id=" + pass_id + ";"
+    db.query(sqls, (err, result) => {
+        if (err) throw err
+        console.log(result)
+        res.render("html/done.ejs")
+    })
+})
+
+app.post("/admin/newreg/delete/:passid", function (req, res) {
+    pass_id = req.params.passid
+    sqls = "UPDATE PASS SET payment_status=0 where pass_id=" + pass_id + ";"
+    db.query(sqls, (err, result) => {
+        if (err) throw err
+        console.log(result)
+        res.render("html/done.ejs")
+    })
+})
+
+app.post("/admin/newreg/semreset", function (req, res) {
+    session = req.session
+    if (session.userid) {
+        sqls = "UPDATE PASS SET payment_status=0 ;"
+        db.query(sqls, (err, result) => {
+            if (err) throw err
+            console.log(result)
+            res.render("html/done.ejs");
+        })
+    } else {
+        res.render("html/loginalert.ejs")
+    }
+})
+
+app.post("/admin/newreg/deleteset", function (req, res) {
+    session = req.session
+    if (session.userid) {
+        sqls = "DELETE FROM PASSENGER ;"
+        db.query(sqls, (err, result) => {
+            if (err) throw err
+            console.log("1 done hehehehehehehehehe")
+            sqls = "DELETE FROM PASS;"
+            db.query(sqls, (err, result) => {
+                if (err) throw err
+                res.render("html/done.ejs")
+            })
         })
     } else {
         res.render("html/loginalert.ejs")
@@ -204,7 +299,7 @@ app.get("/admin/newreg", function (req, res) {
 
 app.get("/admin/report", function (req, res) {
     session = req.session
-    if (session.userid) {
+    if (session.userid===adminemail) {
         var sqls = "Select count(*) as student_count from PASSENGER where designation='student';"
         db.query(sqls, (err, result) => {
             if (err) console.log("Student count error");
@@ -234,35 +329,47 @@ app.get("/admin/report", function (req, res) {
         });
     }
     else {
-        res.render("html/admin/home.ejs")
+        res.render("html/loginalert.ejs")
     }
-
-
-
-
-
-
 })
 
 app.get("/admin/report_download", function (req, res) {
     session = req.session
-    if (req.session) {
-        let sql = "SELECT * FROM PASSENGER WHERE passenger_email='" + email + "' AND passenger_password='" + password + "';";
-        db.query(sql, (err, result) => {
-            if (err) throw err;
-            res.render("html/passenger/home.ejs", { data: { result: result } })
+    if (session.userid===adminemail) {
+        var sqls = "Select count(*) as student_count from PASSENGER where designation='student';"
+        db.query(sqls, (err, result) => {
+            if (err) console.log("Student count error");
+            var student_count = result[0].student_count
 
+            sqls = "Select count(*) as student_count from PASSENGER where designation='faculty';"
+            db.query(sqls, (err, result) => {
+                if (err) console.log("Faculty count error")
+                var faculty_count = result[0].student_count
+                total_count = faculty_count + student_count
+
+                sqls = "SELECT count(*) as total_bus , sum(bus_capacity) as total_capacity from BUS;"
+                db.query(sqls, (err, result) => {
+                    if (err) console.log("Bus counting error")
+                    total_bus = result[0].total_bus
+                    total_capacity = result[0].total_capacity
+
+                    sqls = "SELECT count(*) as total_routes from ROUTES;"
+                    db.query(sqls, (err, result) => {
+                        if (err) console.log("Routes counting error")
+                        total_routes = result[0].total_routes
+
+                        res.render("html/admin/reportprint.ejs", { data: { student_count: student_count, faculty_count: faculty_count, total_count: total_count, total_bus: total_bus, total_capacity: total_capacity, total_routes: total_routes } })
+                    })
+                })
+            });
         });
     }
     else {
-        res.send("Please login to continue");
+        res.render("html/loginalert.ejs")
     }
-
 });
 
-
 //=====================================Passenger login===================================== 
-
 
 app.get("/passenger/login", function (req, res) {
     res.render("html/passenger/login.ejs")
@@ -288,8 +395,6 @@ app.post("/passenger/login", (req, res) => {
     });
 })
 
-
-
 //========================================Passenger Signup=============================================
 
 
@@ -314,6 +419,9 @@ app.post("/passenger/register", (req, res) => {
     route_no = req.body.route;
     passid += 1;
 
+    let y = Math.floor((Math.random() * 9999) + 1);
+    let x = y.toString();
+
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -325,8 +433,8 @@ app.post("/passenger/register", (req, res) => {
     var mailOptions = {
         from: 'lofilinesnmamit@gmail.com',
         to: email,
-        subject: 'Sending Email using Node.js',
-        text: x
+        subject: 'OTP for email verification',
+        text: 'Here is your OTP for login: ' + x,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -357,13 +465,14 @@ app.post("/passenger/verify", (req, res) => {
 
                 sqls = "SELECT * from BUS where route_no='" + route_no + "';"
                 db.query(sqls, (err, result) => {
+                    console.log(result)
                     if (err) console.log("Error occured while fetchng Bus no")
                     bus_no = result[0].bus_no
 
                     sqls = "INSERT INTO PASSENGER VALUES('" + addresss + "','" + usn + "','" + fname + "','" + phoneno + "','" + email + "','" + designation + "','" + password + "'," + passid + "," + bus_no + ");";
                     db.query(sqls, (err, result) => {
                         if (err) throw err
-                        res.send("Success bro")
+                        res.render("html/done2.ejs")
                     })
                 })
             })
@@ -379,7 +488,44 @@ app.get("/forgot-password", function (req, res) {
     res.render("html/forgot-password.ejs");
 });
 
+app.post("/forgot_password", function (req, res) {
+    email = req.body.email
 
+    let newpwd = ""
+    while (newpwd.length < 8) {
+        newpwd += (Math.round(Math.random() * 15)).toString(16)
+    }
+
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'lofilinesnmamit@gmail.com',
+            pass: 'drsvtmzkofrvfxkj'
+        }
+    });
+    var mailOptions = {
+        from: 'lofilinesnmamit@gmail.com',
+        to: email,
+        subject: 'Here is your new Reset password',
+        text: newpwd
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+
+    sqls = "UPDATE PASSENGER SET passenger_password='" + newpwd + "' where passenger_email='" + email + "';"
+    db.query(sqls, (err, result) => {
+        if (err) throw err
+        res.render("html/done2.ejs")
+    })
+
+})
 
 //========================================== Passenger pages=========================================
 
@@ -407,10 +553,10 @@ app.get("/passenger/profile", function (req, res) {
     if (session.userid) {
         let sql = "SELECT * FROM PASSENGER,PASS,BUS,ROUTES where PASS.pass_id=PASSENGER.pass_id AND BUS.bus_no=PASSENGER.bus_no AND BUS.route_no=ROUTES.route_no AND passenger_email='" + session.userid + "';";
         db.query(sql, (err, result) => {
-            if (err) throw err;
+            if (err) { res.render("html/homepage.ejs") };
             var status
             if (result[0].payment_status == 1) {
-                status = "Payment done. Take care "
+                status = "Payment done. Have a safe ride "
             }
             else {
                 status = "Payment not done. Please pay ASAP";
@@ -419,7 +565,7 @@ app.get("/passenger/profile", function (req, res) {
         });
     }
     else {
-        res.render("html/admin/home.ejs")
+        res.render("html/loginalert.ejs")
     }
 });
 
@@ -452,10 +598,8 @@ app.get("/passenger/viewroute", function (req, res) {
     }
 });
 
-
-
 //=============================================PORT================================================
 
-app.listen("3001", function () {
+app.listen("3000", function () {
     console.log("Hey iM listening: 3000")
 });

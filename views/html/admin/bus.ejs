@@ -80,6 +80,8 @@
             </div>
         </nav>
     </section>
+
+    <!-- Table -->
     <section id="middle-container">
         <h2 style="text-align:center;margin-top:1em;">Buses</h2>
         <div class="row" style="margin:4em;overflow-x:auto;">
@@ -123,8 +125,7 @@
                         <td><%= data.result[i].route_no %></td>
                         <td><%= data.result[i].bus_capacity %></td>
                         <td><%= data.result[i].bus_driver %></td>
-                        <td><%= data.result[i].bus_model %></td>
-                        <!-- <td><button type="submit" class="button">Edit</button></td> -->
+                        <td><%= data.result[i].bus_model %></td>    
                         <td><button type="submit" class="button" >Delete</button></td>
                     </form>
                 </tr>
@@ -132,6 +133,8 @@
             </table>
         </div>
     </section>
+    
+    <!-- Footer -->
     <section id="bottom-container" class="footer">
         <div class="row">
             <div class="col-lg-3">

@@ -90,9 +90,10 @@
         <h2 style="text-align:center;margin-top:1em;">Routes</h2>
         <div class="row" style="margin:4em;">
             <table>
-                <tr><th>Path</th><th>Distance</th><th>Fees</th><th>Route link</th></tr>
+                <tr><th>Route No</th><th>Path</th><th>Distance</th><th>Fees</th><th>Route link</th></tr>
                 <% for (var i=0 ;i<data.result.length;i++){ %>
                     <tr>
+                        <td><%= data.result[i].route_no  %></td>
                         <td><%= data.result[i].location  %></td>
                         <td><%= data.result[i].distance  %></td>
                         <td><%= data.result[i].fees  %></td>

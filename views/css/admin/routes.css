@@ -1,0 +1,17 @@
+*{
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+.nitte_logo{
+    padding: 1em 2em;
+    margin-left:12em;
+    margin-right: auto;
+    width:40%;
+}
+
+table.table-striped{
+    margin:0 1.6em;
+    text-align: left;
+}
