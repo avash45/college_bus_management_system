@@ -1,0 +1,23 @@
+1) Download the Zip file and unzip it or git clone the repository.
+
+2)You must install Node in your Laptop/PC for it to work.
+
+3)Install XAMPP and run Apache And MySQL servers
+
+4)Go to localhost/phpMyAdmin  on your browser
+
+5)Import lofilines2.sql file
+
+5)Refresh
+
+6)Open the index.js file in VSCode
+
+7)Add your email wherever needed i.e. replace adminemail@gmail.com and adminpassword
+
+8)Run the file by typing      node index.js       in your terminal
+
+9)Go to brower and type localhost:3000/
+
+10)Voila.... It will work
+
+P.S.- If you have any issues, mail me with photos at lofilinesnmamit0@gmail.com

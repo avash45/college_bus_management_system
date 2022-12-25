@@ -40,7 +40,7 @@ CREATE TABLE `ADMIN` (
 --
 
 INSERT INTO `ADMIN` (`admin_id`, `admin_name`, `admin_password`, `admin_email`, `admin_phone_no`) VALUES
-(0, 'admin', 'e715cd86', 'lofilinesnmamit0@gmail.com', '9686104291');
+(0, 'admin', '0000', 'adminemail@gmail.com', '');
 
 -- --------------------------------------------------------
 
@@ -109,8 +109,8 @@ CREATE TABLE `PASSENGER` (
 --
 
 INSERT INTO `PASSENGER` (`address`, `usn`, `Passenger_name`, `Phone_no`, `passenger_email`, `designation`, `passenger_password`, `pass_id`, `bus_no`) VALUES
-('home', '4nm', 'av', '123', 'sriharipadma2767@gmail.com', 'faculty', 'av', 10021, 7),
-('My home, Surathkal', '4nm20cs044', 'Avaneesh', '9686104291', '4nm20cs044@nmamit.in', 'student', 'av', 10020, 8);
+('home', '4nm', 'av', '123', 'hehe@gmail.com', 'faculty', 'av', 10021, 7),
+('My home, Su', '4nm044', 'Avash', '96', 'randomemail@gmail.com', 'student', 'av', 10020, 8);
 
 -- --------------------------------------------------------
 
