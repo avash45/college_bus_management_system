@@ -9,7 +9,7 @@ const app = express()
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, '/views')))
 app.use(bodyParser.urlencoded({ extended: true }))
-var passid = 10021;
+var passid = 10024;
 var sqls
 let adminemail = 'lofilinesnmamit0@gmail.com'
 //==============================================Session===========================================
@@ -37,7 +37,8 @@ db.connect((err) => {
 //==============================================Email================================================
 
 var nodemailer = require('nodemailer');
-
+let y = Math.floor((Math.random() * 9999) + 1);
+let x = y.toString();
 
 
 //===============================================Homepage====================================================
@@ -418,9 +419,6 @@ app.post("/passenger/register", (req, res) => {
     password = req.body.password;
     route_no = req.body.route;
     passid += 1;
-
-    let y = Math.floor((Math.random() * 9999) + 1);
-    let x = y.toString();
 
     var transporter = nodemailer.createTransport({
         service: 'gmail',

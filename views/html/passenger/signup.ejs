@@ -102,25 +102,12 @@
                 </div>
               </div>
 
-              <!-- <li >
-                <a class="text-white dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Download
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="softwares/windows_downloads">Windows</a>
-                    <a class="dropdown-item" href="softwares/mac_downloads">Mac Os</a>
-                    <a class="dropdown-item" href="softwares/linux_downloads">Linux</a>
-                    <a class="dropdown-item" href="softwares/android_downloads">Android</a>
-                </div>
-            </li> -->
-
 
 
               <label for="bus">Select your route: </label>
               <select name="route" id="bus">
                 <% for(var i=0 ;i<data.result.length;i++){ %> 
-                <option name="route_no" > <%= data.result[i].route_no %> </option>
+                <option name="route_no" > <%= data.result[i].route_no  %></option>
                   <% } %> 
               </select>
 
